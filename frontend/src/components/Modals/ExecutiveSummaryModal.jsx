@@ -1,13 +1,9 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, Shield, AlertTriangle, TrendingDown, CheckCircle, Download, FileText, DollarSign } from 'lucide-react'
 import LoadingSpinner from '../Common/LoadingSpinner'
+import { getRiskColor as getRiskColorByLevel, getRiskLabel } from '../../utils/riskCalculator'
 
-const getRiskColor = (score) => {
-  if (score >= 80) return '#DC2626'
-  if (score >= 60) return '#EF4444'
-  if (score >= 40) return '#F59E0B'
-  return '#10B981'
-}
+const getRiskColor = (score) => getRiskColorByLevel(getRiskLabel(score))
 
 const getSeverityColor = (severity) => {
   const colors = { critical: '#DC2626', high: '#EF4444', medium: '#F59E0B', low: '#10B981' }
@@ -98,7 +94,7 @@ export default function ExecutiveSummaryModal({ isOpen, onClose, summaryData, is
                           border: `1px solid ${getRiskColor(summaryData.overallRiskScore)}40`
                         }}
                       >
-                        {summaryData.overallRiskScore >= 80 ? 'CRITICAL' : summaryData.overallRiskScore >= 60 ? 'HIGH' : summaryData.overallRiskScore >= 40 ? 'MEDIUM' : 'LOW'} RISK
+                        {getRiskLabel(summaryData.overallRiskScore).toUpperCase()} RISK
                       </div>
                     </div>
 
@@ -114,7 +110,7 @@ export default function ExecutiveSummaryModal({ isOpen, onClose, summaryData, is
                             { label: 'Risk Reduction', value: `${summaryData.zeroTrustImprovements.riskReduction}%`, color: '#10B981' },
                             { label: 'Attack Paths Blocked', value: summaryData.zeroTrustImprovements.attackPathsBlocked, color: '#EF4444' },
                             { label: 'Assets Protected', value: summaryData.zeroTrustImprovements.assetsProtected, color: '#00D4FF' },
-                            { label: 'Annual Savings', value: summaryData.zeroTrustImprovements.estimatedAnnualSavings, color: '#F59E0B' }
+                            { label: 'Annual Savings', value: summaryData.zeroTrustImprovements.estimatedAnnualSavings?.display ?? summaryData.zeroTrustImprovements.estimatedAnnualSavings, color: '#F59E0B' }
                           ].map(({ label, value, color }) => (
                             <div key={label} className="bg-black/20 rounded-xl p-3">
                               <div className="font-bold text-lg leading-none" style={{ color }}>{value}</div>

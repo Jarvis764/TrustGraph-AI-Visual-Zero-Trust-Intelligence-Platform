@@ -10,7 +10,7 @@ import ExecutiveSummaryModal from './components/Modals/ExecutiveSummaryModal'
 import Toast from './components/Common/Toast'
 import { useGraphData } from './hooks/useGraphData'
 import { useAIAnalysis } from './hooks/useAIAnalysis'
-import { getRiskColor } from './utils/riskCalculator'
+import { getRiskColor, getRiskLabel } from './utils/riskCalculator'
 
 export default function App() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
@@ -120,7 +120,7 @@ export default function App() {
               <div className="flex items-end gap-2">
                 <div
                   className="text-4xl font-black leading-none"
-                  style={{ color: getRiskColor(overallRisk >= 85 ? 'critical' : overallRisk >= 65 ? 'high' : overallRisk >= 40 ? 'medium' : 'low') }}
+                  style={{ color: getRiskColor(getRiskLabel(overallRisk)) }}
                 >
                   {overallRisk}
                 </div>
@@ -131,7 +131,7 @@ export default function App() {
                   className="h-full rounded-full transition-all duration-1000"
                   style={{
                     width: `${overallRisk}%`,
-                    backgroundColor: getRiskColor(overallRisk >= 85 ? 'critical' : overallRisk >= 65 ? 'high' : overallRisk >= 40 ? 'medium' : 'low'),
+                    backgroundColor: getRiskColor(getRiskLabel(overallRisk)),
                     boxShadow: `0 0 8px currentColor`
                   }}
                 />

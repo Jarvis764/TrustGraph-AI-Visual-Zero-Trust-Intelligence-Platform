@@ -154,7 +154,9 @@ async function generateExecutiveSummary(context) {
       attackPathsBlocked: context.isZeroTrustMode ? 18 : 0,
       assetsProtected: context.isZeroTrustMode ? Math.round(totalNodes * 0.8) : 0,
       complianceImprovement: context.isZeroTrustMode ? '94% NIST SP 800-207 alignment' : 'Not yet assessed',
-      estimatedAnnualSavings: context.isZeroTrustMode ? '$3.2M in breach prevention' : 'Calculate after ZT implementation'
+      estimatedAnnualSavings: context.isZeroTrustMode
+        ? { value: 3200000, display: '$3.2M in breach prevention' }
+        : { value: 0, display: 'Calculate after ZT implementation' }
     },
     strategicRecommendations: [
       {
